@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify Css By js</title>
+    <style>
+        #main{
+            font-size: 50px;
+            color: gray;
+            transition: 2s;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="main" onmouseenter="modify()"  onmouseleave="unmodify()">Bishnu PK</div>
+
+    <script>
+        function modify(){
+            document.getElementById('main').style.fontSize="100px";
+            document.getElementById('main').style.color="red";
+        }
+        function unmodify(){
+            document.getElementById('main').style.fontSize="50px";
+            document.getElementById('main').style.color="gray";
+        }
+    </script>
+</body>
+</html>
