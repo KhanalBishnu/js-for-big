@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Window open close</title>
+</head>
+<body>
+    <button onclick="openWin()">open facebook</button>
+    <button onclick="CloseWin()">close</button>
+
+    <script>
+        var my;
+        function openWin(){
+            my=window.open("https://facebook.com","height=500px","width=500px");
+
+        }
+        function CloseWin(){
+            my.close();
+        }
+    </script>
+</body>
+</html>
