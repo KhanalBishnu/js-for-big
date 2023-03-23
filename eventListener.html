@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Listener</title>
+</head>
+<body>
+    <div id="count"></div>
+    <button id="btn">Click</button>
+    <button id="stop" onclick="stop()">stop</button>
+
+    <script>
+        var i=0;
+        document.getElementById('btn').addEventListener("click",countCkeck);
+        function countCkeck(){
+            document.getElementById('count').style.color="red";
+            document.getElementById('count').innerText=i;
+            i++;
+        }
+        document.getElementById('btn').addEventListener('mouseenter',colorchange);
+
+        function colorchange(){
+            document.getElementById('count').style.background="green";
+        }
+        document.getElementById('btn').addEventListener('mouseleave',colorchange1);
+        function colorchange1(){
+            document.getElementById('count').style.background="white";
+
+        }
+        function stop(){
+            document.getElementById('btn').removeEventListener("click",countCkeck);
+        }
+
+        
+
+
+    </script>
+</body>
+</html>
