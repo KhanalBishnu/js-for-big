@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>number validate</title>
+</head>
+<body>
+    <label for="">Please Enter number</label>
+    <input type="text" name="" id="" onkeyup="val(this)">
+    <div id="res"></div>
+    <script>
+        function val(elem){
+            document.getElementById('res').style.color="red";
+
+            if(isNaN(elem.value)){
+                document.getElementById('res').innerText="please enter number";
+            }
+            else{
+                if(elem.value.length>10){
+                    document.getElementById('res').innerText="please only 10";
+                }
+                else{
+                    document.getElementById('res').innerText="";
+
+                }
+            }
+        }
+    </script>
+</body>
+</html>
