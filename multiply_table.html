@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiply of table </title>
+    <style>
+        div{
+            /* background-color: aquamarine; */
+            border-bottom: solid 1px;
+            width: 50px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+    var num = prompt("enter a num","");
+    if(!isNaN(num)){
+
+        for (let i = 0; i <=10; i++) {
+            document.write("<div>");
+                document.write(num +"x"+i+"="+num*i);
+                document.write("</div>");
+            }
+        }
+        else{
+            document.write(num+"It is not a Number");
+        }
+    </script>
+    
+</body>
+</html>
