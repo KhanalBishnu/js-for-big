@@ -4,9 +4,75 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Count</title>
+    <title>Word Count </title>
 </head>
+<style>
+.container{
+    background-color: aliceblue;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+   
+}
+h2{
+    background-color: aqua;
+    font-size: 30px;
+}
+
+#text{
+    width: 100%;
+    height: 100%;
+    padding:70px 1px;
+    font-size: 30px;
+
+}
+.input{
+    display: inline-block;
+    padding: 0px 15px;
+    font-size: 25px;
+    background-color: aqua;
+
+}
+label{
+    padding: 0 10px;
+}
+
+</style>
 <body>
-    
+    <div class="container">
+        <h2>Word Counter </h2>
+        <textarea name="" id="text" ></textarea>
+        <div class="input">
+            <small id="word_ct">0</small>
+            <label for="">Words</label> 
+        </div>
+        <div class="input">
+            <small id="char_ct">0</small>
+        <label for="">Chars</label>
+       </div>
+
+    </div>
+    <script>
+       
+        var wrd=document.getElementById('word_ct');
+        var char=document.getElementById('char_ct');
+        var text=document.getElementById('text');
+
+        text.addEventListener('input',function(){
+            var count=this.value;
+            char.innerHTML=count.length;
+
+
+            // trim le aghi ra paxi ko space lai ignore garxa 
+            var filter_count=count.trim();
+
+            var word=filter_count.split(" ");
+            let final=word.filter(function(ele){
+                return ele !="";
+            });
+            wrd.innerHTML=final.length;
+        });
+
+    </script>
 </body>
 </html>
