@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>try catch</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="col-md-3">
+                    <div class="py-3">
+                        <button type="submit" onclick="test()">Click</button>
+                        <!-- <input type="text" name="" onkeyup="val(this)" id="test"> -->
+                        <input type="text" name=""  id="test">
+                        <h1 id="res" ></h1>
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function test(){
+            var num=document.getElementById('test').value;
+                var data=num.value;
+            try {
+                
+                
+                if(isNaN(data)){
+                    var x=num.toUpperCase();
+                    document.getElementById('res').innerText=x;
+                }else{
+                    throw "please entre Word or Sentance"  
+
+                }
+            } catch (err) {
+                document.getElementById('res').innerText=err;
+            }
+            // finally {
+            //     return "test";
+            // }
+        }
+        // real time write 
+        // function val(elem){
+        //     var num=document.getElementById('test').value;
+        //     var x=num.toUpperCase();
+        //         document.getElementById('res').innerText=x;
+        // }
+    </script>
+</body>
+</html>

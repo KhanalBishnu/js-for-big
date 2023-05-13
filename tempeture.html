@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>temperature</title>
+</head>
+<style>
+    .temperature_room{
+        background-color: grey;
+        text-align: center;
+        height: 400px;
+        width: 80%;
+        margin: auto;
+    }
+h2{
+    text-align: center;
+    font-size: 30px;
+    background-color: aqua;
+}
+#container{
+    text-align: center;
+    padding: 25px;
+}
+.input-group{
+    display: inline-block;
+}
+.inp{
+    padding:10px 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.tem {
+  width: 50%;
+  font-size: 30px;
+  padding: 15px;
+  text-align: center;
+}
+
+
+
+
+</style>
+<body>
+    <div class="temperature_room">
+    
+    <h2>Temperature Convertor</h2>
+
+    <div id="container">
+        <div class="input-group">
+            <label class="tem">Celceus</label>
+            <br>
+            <input type="number" id="cel" class="inp" value="0">
+        </div>
+       <div class="input-group">
+        <label class="tem">Foren</label> <br>
+        <input type="number" id="fer" class="inp" value="32"> 
+       </div>
+    </div>
+</div>
+    <script>
+        var cel=document.getElementById('cel');
+        var fer=document.getElementById('fer');
+        cel.addEventListener('input',function(){
+            var value=cel.value;
+            var f=(value * 9/5) + 32;
+            if(!Number.isInteger(f)){
+                f=f.toFixed(4);
+            }
+            fer.value=f;
+
+
+        });
+        fer.addEventListener('input',function(){
+            var value=this.value;
+            var c = (value - 32) * 5/9;
+            if(!Number.isInteger(c)){
+                c=c.toFixed(4);
+            }
+            cel.value=c;
+
+
+        });
+
+    </script>
+</body>
+</html>
