@@ -1,0 +1,60 @@
+1.php artisan make:migration add_columns_to_users_table --table=users
+
+2.
+
+            $table->timestamp('last_login_at')->nullable();
+
+
+
+3.
+ if (Auth::attempt($credentials)) {
+            // Authentication successful
+            $user = Auth::user();
+            $user->login_attempts = 0;
+            $user->login_lockout_time = null;
+            $user->last_login_at = Carbon::now();
+            $user->save();
+
+            // Proceed with login
+            // ...
+
+        }
+4.
+app/Console/Kernel.php
+protected function schedule(Schedule $schedule)
+{
+    $schedule->call(function () {
+        $inactiveUsers = User::whereDate('last_login_at', '<', Carbon::now()->subMonths(2))->get();
+
+        foreach ($inactiveUsers as $user) {
+            $user->blocked = true;
+            $user->save();
+        }
+    })->daily();
+
+    // Run the scheduler
+    Artisan::call('schedule:run');
+}
+
+
+5.
+php artisan schedule:run
+
+6.
+
+if user need to unblocked
+
+public function unblockUser(Request $request, $userId)
+{
+    $user = User::findOrFail($userId);
+
+    if ($user->blocked) {
+        $user->blocked = false;
+        $user->save();
+
+        return response()->json(['message' => 'User unblocked successfully.']);
+    }
+
+    return response()->json(['message' => 'User is not blocked.'], 400);
+}
+
