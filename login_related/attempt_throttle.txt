@@ -1,0 +1,49 @@
+Open the app/Http/Kernel.php file.
+
+Add the following middleware to the $middlewareGroups property:
+
+'api' => [
+    \Illuminate\Routing\Middleware\ThrottleRequests::class . ':5,1',
+    // other middleware...
+],
+
+
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Cache\RateLimiting\Limit;
+use Symfony\Component\HttpFoundation\Response;
+
+// ...
+
+public function login(Request $request)
+{
+    $maxAttempts = 5;
+    $decayMinutes = 1;
+
+    $key = $request->ip(); // Use IP address as the rate limiter key
+
+    if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
+        // Rate limit exceeded
+        $seconds = RateLimiter::availableIn($key);
+
+        return response()->json(['message' => 'Too many login attempts. Please try again in ' . $seconds . ' seconds.'], Response::HTTP_TOO_MANY_REQUESTS);
+    }
+
+    // Validate the login credentials
+    $credentials = $request->only('email', 'password');
+    if (!Auth::attempt($credentials)) {
+        RateLimiter::hit($key, $decayMinutes);
+
+        throw ValidationException::withMessages([
+            'email' => 'The provided credentials are incorrect.',
+        ]);
+    }
+
+    RateLimiter::clear($key);
+
+    // Authentication successful, proceed with login logic
+    // ...
+}
+
+
+
