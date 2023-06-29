@@ -1,49 +1,63 @@
-Open the app/Http/Kernel.php file.
+<?php
 
-Add the following middleware to the $middlewareGroups property:
+namespace App\Http\Controllers\Auth;
 
-'api' => [
-    \Illuminate\Routing\Middleware\ThrottleRequests::class . ':5,1',
-    // other middleware...
-],
-
-
-use Illuminate\Support\Facades\RateLimiter;
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Cache\RateLimiting\Limit;
-use Symfony\Component\HttpFoundation\Response;
 
-// ...
 
-public function login(Request $request)
+class LoginController extends Controller
+
 {
-    $maxAttempts = 5;
-    $decayMinutes = 1;
+    use AuthenticatesUsers, ThrottlesLogins;
 
-    $key = $request->ip(); // Use IP address as the rate limiter key
+    protected $maxAttempts = 5;
+    protected $decayMinutes = 3;
 
-    if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
-        // Rate limit exceeded
-        $seconds = RateLimiter::availableIn($key);
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
 
-        return response()->json(['message' => 'Too many login attempts. Please try again in ' . $seconds . ' seconds.'], Response::HTTP_TOO_MANY_REQUESTS);
+        if ($this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+            $this->sendLockoutResponse($request);
+        }
+
+        if (Auth::attempt($credentials)) {
+            $this->clearLoginAttempts($request);
+            $user = Auth::user();
+            $token = $user->createToken('API Token')->accessToken;
+
+            return response()->json(['token' => $token]);
+        }
+
+        $this->incrementLoginAttempts($request);
+        $this->sendFailedLoginResponse($request);
     }
 
-    // Validate the login credentials
-    $credentials = $request->only('email', 'password');
-    if (!Auth::attempt($credentials)) {
-        RateLimiter::hit($key, $decayMinutes);
+    protected function sendLockoutResponse(Request $request)
+    {
+        $seconds = $this->limiter()->availableIn(
+            $this->throttleKey($request)
+        );
 
+        // throw ValidationException::withMessages([
+        //     'email' => [trans('auth.throttle', ['seconds' => $seconds])],
+        // ])->status(429);
         throw ValidationException::withMessages([
-            'email' => 'The provided credentials are incorrect.',
-        ]);
+            'error' => ['Too many login attempts. Please try again in '.$seconds.' seconds.'],
+        ])->status(429);
     }
 
-    RateLimiter::clear($key);
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            'email' => [trans('auth.failed')],
+        ])->status(401);
+    }
 
-    // Authentication successful, proceed with login logic
-    // ...
 }
-
-
-
